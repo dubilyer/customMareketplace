@@ -26,10 +26,10 @@ public class UserService {
     }
 
     private User toModel(UserDto user) {
-        return new User(user.getEmail());
+        return new User(user.getUsername());
     }
 
     private UserDto toDto(User user) {
-        return new UserDto(user.getEmail());
+        return new UserDto(user.getId(), user.getUsername());
     }
 }

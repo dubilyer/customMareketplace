@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users",
-        uniqueConstraints = @UniqueConstraint(name = "email_user_uc", columnNames = "email"))
+        uniqueConstraints = @UniqueConstraint(name = "username_user_uc", columnNames = "username"))
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,10 +23,10 @@ public class User {
 
     @Email
     @NotNull
-    @Column(name = "email", unique = true)
-    String email;
+    @Column(name = "username", unique = true)
+    String username;
 
-    public User(@Email @NotNull String email) {
-        this.email = email;
+    public User(@Email @NotNull String username) {
+        this.username = username;
     }
 }
