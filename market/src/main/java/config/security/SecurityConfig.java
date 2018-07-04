@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,13 +18,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan({"config", "api"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService authService;
 
-    private static String REALM="MY_TEST_REALM";
+    private static String REALM = "MY_TEST_REALM";
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) {
@@ -46,15 +48,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
-                .anyRequest().authenticated();
-        http.httpBasic().authenticationEntryPoint(getBasicAuthEntryPoint());
+        http.csrf().disable().httpBasic().authenticationEntryPoint(getBasicAuthEntryPoint());
 
     }
 
     @Bean
-    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint(){
+    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint() {
         return new CustomBasicAuthenticationEntryPoint();
     }
 
