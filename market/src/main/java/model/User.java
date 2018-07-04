@@ -1,8 +1,6 @@
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,8 +17,8 @@ import java.util.Collections;
     @NamedQuery(name = "GET_USER_BY_USERNAME", query = "FROM User WHERE username = :username"),
 })
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
+@Builder
 @Embeddable
 public class User implements UserDetails {
     @Id
@@ -33,12 +31,9 @@ public class User implements UserDetails {
     @Column(name = "username", unique = true)
     String username;
 
+    @NotNull
     @Column(name = "password")
     String password;
-
-    public User(@Email @NotNull String username) {
-        this.username = username;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
