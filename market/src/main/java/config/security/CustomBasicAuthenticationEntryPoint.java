@@ -1,4 +1,4 @@
-package config;
+package config.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;

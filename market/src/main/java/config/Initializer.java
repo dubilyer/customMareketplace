@@ -1,5 +1,6 @@
 package config;
 
+import config.security.SecurityConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import utils.LoggerDecorator;
 

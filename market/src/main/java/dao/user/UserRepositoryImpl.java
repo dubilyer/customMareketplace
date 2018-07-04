@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,5 +29,15 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void createUser(User user) {
         getSession().persist(user);
+    }
+
+    @Override
+    public UserDetails getUserByUsername(String username) {
+        return (UserDetails) getSession()
+                .getNamedQuery("GET_USER_BY_USERNAME")
+                .setParameter("username", username)
+                .setMaxResults(1)
+                .list()
+                .get(0);
     }
 }

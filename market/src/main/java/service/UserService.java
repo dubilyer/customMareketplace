@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("userService")
 @Transactional
 @ComponentScan("dao")
-public class UserService {
+public class UserService{
     @Autowired
     private UserRepository userRepository;
 
