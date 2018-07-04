@@ -3,7 +3,8 @@ package config;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import utils.LoggerDecorator;
 
-public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer
+{
     /**
      * Config classes
      * @return              Class[]
@@ -11,7 +12,7 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
     @Override
     protected Class<?>[] getRootConfigClasses(){
         LoggerDecorator.logger.info("Initializing root config");
-        return new Class[]{PersistenceConfig.class};
+        return new Class[]{SecurityConfig.class, PersistenceConfig.class};
     }
 
     /**
