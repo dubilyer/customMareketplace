@@ -23,7 +23,7 @@ public class UserApi extends CommonController{
 
 
 
-    @GetMapping(value = {"/auth/user"})
+    @GetMapping(value = {"/admin/user"})
     @ResponseBody
     @PreAuthorize("hasAuthority('ADMIN')")
     @ApiOperation(value = "Get user by Id", notes = "Returns user with specified id")
@@ -31,7 +31,18 @@ public class UserApi extends CommonController{
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/admin/sign_up", method = RequestMethod.POST)
+    @PostMapping(value = "/admin/add_role")
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @ApiOperation (value = "add role to user", notes = "add a role to specified user")
+    public ResponseEntity<?> addRoleToUser(
+            @RequestParam long id,
+            @RequestParam String role){
+        userService.addRole(id, role.toUpperCase());
+        return new ResponseEntity<> (HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/sign_up")
     @ResponseBody
     @ApiOperation(value = "Create user", notes = "Creates new user")
     public ResponseEntity<?> createUser(@RequestBody UserDto user){

@@ -7,4 +7,5 @@ public interface UserRepository {
     User getUserById(long id);
     void createUser(User user);
     UserDetails getUserByUsername(String username);
+    void addRole(long id, String role);
 }

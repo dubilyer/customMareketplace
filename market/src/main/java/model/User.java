@@ -1,23 +1,27 @@
 package model;
 
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users",
         uniqueConstraints = @UniqueConstraint(name = "username_user_uc", columnNames = "username"))
 @NamedQueries({
-    @NamedQuery(name = "GET_USER_BY_USERNAME", query = "FROM User WHERE username = :username"),
+        @NamedQuery(name = "GET_USER_BY_USERNAME", query = "FROM User WHERE username = :username"),
 })
 @Data
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Embeddable
 public class User implements UserDetails {
@@ -32,13 +36,18 @@ public class User implements UserDetails {
     String username;
 
     @NotNull
-    @Column(name = "password")
+    @Column(name = "encrypted_password")
     String password;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(() -> "ADMIN");
-    }
+    @NotNull
+    @Builder.Default
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Authority> authorities = new HashSet<>(Collections.singleton(Authority.builder().build()));
 
     @Override
     public boolean isAccountNonExpired() {

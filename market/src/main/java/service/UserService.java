@@ -41,4 +41,8 @@ public class UserService{
     private UserDto toDto(User user) {
         return new UserDto(user.getId(), user.getUsername(), user.getPassword());
     }
+
+    public void addRole(long id, String role) {
+        userRepository.addRole(id, role);
+    }
 }
